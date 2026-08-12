@@ -1,0 +1,1 @@
+{"task_id":"SPR2-004A","sprint":"Sprint 2","status":"FROZEN","compile_status":"PASS","files_modified":["mql5/modules/IndicatorManager.mq5"],"contracts_passed":true,"breaking_change":false,"technical_debt":"0","ready_for_merge":true}

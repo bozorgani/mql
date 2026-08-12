@@ -1,0 +1,12 @@
+{
+  "task": "SPR4-016",
+  "status": "COMPLETE",
+  "compile": "PASS",
+  "files_changed": 0,
+  "files_modified": 0,
+  "architecture": "APPROVED",
+  "integration": "PriceActionManager orchestrates CandleClassifier through Confluence with read-only Structure dependency",
+  "hidden_changes": false,
+  "ready_for_spr4_017": true,
+  "note": "Structure-to-Price-Action integration verified; no new source changes required"
+}

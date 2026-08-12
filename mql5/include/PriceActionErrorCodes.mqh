@@ -1,0 +1,14 @@
+#pragma once
+// SPR4-012 Price Action Error Codes — reserved ranges only
+const int ERR_PRICEACTION_NOT_INITIALIZED = 1400;
+const int ERR_PRICEACTION_NOT_CONFIGURED = 1401;
+const int ERR_PRICEACTION_NOT_READY = 1402;
+const int ERR_PATTERN_NOT_FOUND = 1450;
+const int ERR_PATTERN_INVALID = 1451;
+const int ERR_PATTERN_DATA = 1452;
+const int ERR_FIB_INVALID_ANCHOR = 1500;
+const int ERR_FIB_INVALID_LEVEL = 1501;
+const int ERR_FIB_NOT_READY = 1502;
+const int ERR_CONFLUENCE_NOT_READY = 1550;
+const int ERR_CONFLUENCE_EMPTY = 1551;
+const int ERR_CONFLUENCE_INVALID = 1552;

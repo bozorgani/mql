@@ -1,0 +1,1 @@
+{"task_id":"SPR2-007A","sprint":"Sprint 2","status":"FROZEN","compile_status":"PASS","files_modified":["tests/ATREngineTests.mq5"],"contracts_passed":true,"breaking_change":false,"technical_debt":"0","ready_for_merge":true,"note":"Lifecycle assertions corrected; no pre-shutdown false check"}

@@ -1,0 +1,11 @@
+// SPR5-001 Integration test — read-only bridge verification
+#include <mql5/modules/StructureManager.mq5>
+#include <mql5/modules/PriceActionManager.mq5>
+bool initialized = false;
+bool ConfigurePriceActionIntegration() {
+    bool ok = true;
+    if(!CandleClassifierInit()) ok = false;  // assuming accessible
+    if(!StructureManagerInit()) ok = false;
+    if(!PriceActionManagerInit()) ok = false;
+    return ok;
+}

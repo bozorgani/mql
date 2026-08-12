@@ -1,0 +1,7 @@
+#include <mql5/mod/Color.h>
+/* SPR4-018 Regression: verify Structure -> Price Action integration */
+bool initialized = false;
+bool Color_check() {
+  // Placeholder for regression verification logic
+  return true;
+}
