@@ -2,6 +2,7 @@
 bool structureManagerInitialized = false;
 bool StructureManagerInit(){
   if(!SwingInit()) return false;
+  if(!SwingConfigure(1)) { SwingShutdown(); return false; }
   if(!SwingStorageInit()) { SwingShutdown(); SwingStorageShutdown(); return false; }
   if(!BOSInit()) { SwingStorageShutdown(); SwingShutdown(); return false; }
   if(!CHOCHInit()) { BOSShutdown(); SwingStorageShutdown(); SwingShutdown(); return false; }
@@ -21,7 +22,7 @@ bool StructureManagerStatus(){ return structureManagerInitialized; }
 bool StructureManagerUpdate(){
   SwingUpdate();
   if(SwingReady()){
-    SaveSwing(GetLastSwingPrice(), GetLastSwingTime());
+    SaveSwingPoint(GetLastSwingPrice(), GetLastSwingTime(), GetLastSwingType());
   }
   BOSUpdate();
   CHOCHUpdate();
