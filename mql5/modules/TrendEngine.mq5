@@ -1,5 +1,5 @@
 // SPR3-006 Trend Engine Foundation — infrastructure only; no trend algorithm
-#include <mql5/modules/CommonTypes.mqh>
+#include <mql5/include/CommonTypes.mqh> // B-02: corrected include path
 bool initialized = false;
 bool configured = false;
 bool ready = false;
