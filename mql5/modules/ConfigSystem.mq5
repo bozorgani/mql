@@ -19,6 +19,8 @@ const ENUM_TIMEFRAMES CONFIG_TREND_TIMEFRAME = PERIOD_H4;
 const ENUM_TIMEFRAMES CONFIG_ENTRY_TIMEFRAME = PERIOD_H1;
 const ENUM_TIMEFRAMES CONFIG_ATR_TIMEFRAME = PERIOD_H1;
 const int CONFIG_HISTORY_MULTIPLIER = 10;
+const double CONFIG_TREND_NORMAL_DISTANCE_RATIO = 0.005;
+const double CONFIG_TREND_STRONG_DISTANCE_RATIO = 0.015;
 
 // ---------------------------------------------------------------------------
 // Typed indicator configuration record — approved transport shape (Option A).
@@ -34,6 +36,8 @@ struct IndicatorConfig {
   ENUM_TIMEFRAMES entryTimeframe;
   ENUM_TIMEFRAMES atrTimeframe;
   int historyMultiplier;
+  double trendNormalDistanceRatio;
+  double trendStrongDistanceRatio;
 };
 
 IndicatorConfig indicatorConfig;
@@ -47,6 +51,8 @@ int ConfigInit() {
   indicatorConfig.entryTimeframe = CONFIG_ENTRY_TIMEFRAME;
   indicatorConfig.atrTimeframe = CONFIG_ATR_TIMEFRAME;
   indicatorConfig.historyMultiplier = CONFIG_HISTORY_MULTIPLIER;
+  indicatorConfig.trendNormalDistanceRatio = CONFIG_TREND_NORMAL_DISTANCE_RATIO;
+  indicatorConfig.trendStrongDistanceRatio = CONFIG_TREND_STRONG_DISTANCE_RATIO;
   return INIT_SUCCEEDED;
 }
 

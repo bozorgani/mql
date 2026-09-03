@@ -9,6 +9,8 @@ bool StructureManagerInit(){
   if(!CHOCHInit()) { BOSShutdown(); SwingStorageShutdown(); SwingShutdown(); return false; }
   if(!CHOCHConfigureRuntime(0.0)) { CHOCHShutdown(); BOSShutdown(); SwingStorageShutdown(); SwingShutdown(); return false; }
   if(!TrendInit()) { CHOCHShutdown(); BOSShutdown(); SwingStorageShutdown(); SwingShutdown(); return false; }
+  if(!TrendConfigureRuntime(indicatorConfig.trendNormalDistanceRatio,
+                            indicatorConfig.trendStrongDistanceRatio)) { TrendShutdown(); CHOCHShutdown(); BOSShutdown(); SwingStorageShutdown(); SwingShutdown(); return false; }
   structureManagerInitialized = true;
   return true;
 }
@@ -22,13 +24,14 @@ void StructureManagerShutdown(){
 }
 bool StructureManagerStatus(){ return structureManagerInitialized; }
 bool StructureManagerUpdate(){
-  SwingUpdate();
+  if(!SwingUpdate()) return false;
   if(SwingReady()){
-    SaveSwingPoint(GetLastSwingPrice(), GetLastSwingTime(), GetLastSwingType());
+    if(!SaveSwingPoint(GetLastSwingPrice(), GetLastSwingTime(), GetLastSwingType()))
+      return false;
   }
-  BOSUpdate();
-  CHOCHUpdate();
-  TrendUpdate();
+  if(!BOSUpdate()) return false;
+  if(!CHOCHUpdate()) return false;
+  if(!TrendUpdate()) return false;
   return true;
 }
 

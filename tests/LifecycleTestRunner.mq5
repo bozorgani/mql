@@ -47,6 +47,10 @@ void TestConfigurationContract() {
                 "ATR timeframe is H1");
   TestAssertInt(10, indicatorConfig.historyMultiplier,
                 "History warm-up multiplier is 10");
+  TestAssertDouble(0.005, indicatorConfig.trendNormalDistanceRatio, 0.0,
+                   "Normal trend-distance threshold is 0.5 percent");
+  TestAssertDouble(0.015, indicatorConfig.trendStrongDistanceRatio, 0.0,
+                   "Strong trend-distance threshold is 1.5 percent");
 
   indicatorConfig.emaPeriod = 0;
   TestAssertFalse(ConfigStatus(), "Zero EMA period is rejected");
@@ -66,6 +70,14 @@ void TestConfigurationContract() {
 
   indicatorConfig.historyMultiplier = 0;
   TestAssertFalse(ConfigStatus(), "Zero history multiplier is rejected");
+  ConfigInit();
+
+  indicatorConfig.trendNormalDistanceRatio = -0.001;
+  TestAssertFalse(ConfigStatus(), "Negative normal trend threshold is rejected");
+  ConfigInit();
+
+  indicatorConfig.trendStrongDistanceRatio = indicatorConfig.trendNormalDistanceRatio;
+  TestAssertFalse(ConfigStatus(), "Strong trend threshold must exceed normal threshold");
   ConfigInit();
 }
 

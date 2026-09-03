@@ -27,6 +27,10 @@ ValidationResult ValidateConfiguration(){
   if(PeriodSeconds(indicatorConfig.entryTimeframe) <= 0) return VAL_FAIL;
   if(PeriodSeconds(indicatorConfig.atrTimeframe) <= 0) return VAL_FAIL;
   if(ValidatePositive(indicatorConfig.historyMultiplier) != VAL_OK) return VAL_FAIL;
+  if(!MathIsValidNumber(indicatorConfig.trendNormalDistanceRatio) ||
+     indicatorConfig.trendNormalDistanceRatio < 0.0) return VAL_FAIL;
+  if(!MathIsValidNumber(indicatorConfig.trendStrongDistanceRatio) ||
+     indicatorConfig.trendStrongDistanceRatio <= indicatorConfig.trendNormalDistanceRatio) return VAL_FAIL;
   return VAL_OK;
 }
 

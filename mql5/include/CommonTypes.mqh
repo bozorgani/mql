@@ -41,4 +41,10 @@ struct CHOCHResult {
   MarketStructureBias previousBias;
 };
 
+struct TrendResult {
+  TrendDirection direction;
+  TrendStrength strength;
+  double emaDistanceRatio;
+};
+
 #endif // MQL5_COMMON_TYPES_MQH
