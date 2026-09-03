@@ -57,6 +57,21 @@ bool GetLatestSwingByType(SwingType type, SwingPoint &point){
   }
   return false;
 }
+bool GetPreviousSwingByType(SwingType type, SwingPoint &point){
+  if(type == SWING_NONE)
+    return false;
+  int found = 0;
+  for(int index = ArraySize(swingStoragePoints) - 1; index >= 0; index--){
+    if(swingStoragePoints[index].type != type)
+      continue;
+    found++;
+    if(found == 2){
+      point = swingStoragePoints[index];
+      return true;
+    }
+  }
+  return false;
+}
 bool SwingStorageReady(){ return swingStorageInitialized && swingStorageReadyState; }
 
 // TODO(SPR7): Logger integration hook — future CreateLogEvent calls here

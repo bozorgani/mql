@@ -56,4 +56,88 @@ SwingRelation ClassifySwingRelation(const SwingPoint &current,
   return SWING_RELATION_NONE;
 }
 
+MarketStructureBias InferStructureBias(const SwingPoint &latestHigh,
+                                       const SwingPoint &previousHigh,
+                                       const SwingPoint &latestLow,
+                                       const SwingPoint &previousLow) {
+  SwingRelation highRelation = ClassifySwingRelation(latestHigh, previousHigh);
+  SwingRelation lowRelation = ClassifySwingRelation(latestLow, previousLow);
+  if(highRelation == SWING_HH && lowRelation == SWING_HL)
+    return STRUCTURE_BIAS_BULLISH;
+  if(highRelation == SWING_LH && lowRelation == SWING_LL)
+    return STRUCTURE_BIAS_BEARISH;
+  return STRUCTURE_BIAS_UNKNOWN;
+}
+
+bool DetectBreakOfStructure(const double closePrice,
+                            const datetime closeTime,
+                            const bool hasSwingHigh,
+                            const SwingPoint &swingHigh,
+                            const bool hasSwingLow,
+                            const SwingPoint &swingLow,
+                            const double minimumBreak,
+                            BOSResult &result) {
+  result.direction = BOS_NONE;
+  result.level = 0.0;
+  result.closePrice = 0.0;
+  result.closeTime = 0;
+  result.sourceSwingTime = 0;
+  if(!MathIsValidNumber(closePrice) || closePrice <= 0.0 || closeTime <= 0 ||
+     !MathIsValidNumber(minimumBreak) || minimumBreak < 0.0)
+    return false;
+  if(hasSwingHigh && (swingHigh.type != SWING_HIGH || swingHigh.price <= 0.0 ||
+                      swingHigh.time <= 0))
+    return false;
+  if(hasSwingLow && (swingLow.type != SWING_LOW || swingLow.price <= 0.0 ||
+                     swingLow.time <= 0))
+    return false;
+
+  if(hasSwingHigh && closePrice > swingHigh.price + minimumBreak) {
+    result.direction = BOS_BULLISH;
+    result.level = swingHigh.price;
+    result.closePrice = closePrice;
+    result.closeTime = closeTime;
+    result.sourceSwingTime = swingHigh.time;
+    return true;
+  }
+  if(hasSwingLow && closePrice < swingLow.price - minimumBreak) {
+    result.direction = BOS_BEARISH;
+    result.level = swingLow.price;
+    result.closePrice = closePrice;
+    result.closeTime = closeTime;
+    result.sourceSwingTime = swingLow.time;
+  }
+  return true;
+}
+
+bool ConfirmBreakOfStructure(const double closePrice,
+                             const datetime closeTime,
+                             const MarketStructureBias bias,
+                             const SwingPoint &swingHigh,
+                             const SwingPoint &swingLow,
+                             const double minimumBreak,
+                             BOSResult &result) {
+  if(bias == STRUCTURE_BIAS_UNKNOWN) {
+    result.direction = BOS_NONE;
+    result.level = 0.0;
+    result.closePrice = 0.0;
+    result.closeTime = 0;
+    result.sourceSwingTime = 0;
+    return true;
+  }
+  bool valid = DetectBreakOfStructure(closePrice, closeTime, true, swingHigh,
+                                      true, swingLow, minimumBreak, result);
+  if(!valid)
+    return false;
+  if((bias == STRUCTURE_BIAS_BULLISH && result.direction != BOS_BULLISH) ||
+     (bias == STRUCTURE_BIAS_BEARISH && result.direction != BOS_BEARISH)) {
+    result.direction = BOS_NONE;
+    result.level = 0.0;
+    result.closePrice = 0.0;
+    result.closeTime = 0;
+    result.sourceSwingTime = 0;
+  }
+  return true;
+}
+
 #endif // MQL5_STRUCTURE_MATH_MQH

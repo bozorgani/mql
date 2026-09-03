@@ -5,6 +5,7 @@ bool StructureManagerInit(){
   if(!SwingConfigure(1)) { SwingShutdown(); return false; }
   if(!SwingStorageInit()) { SwingShutdown(); SwingStorageShutdown(); return false; }
   if(!BOSInit()) { SwingStorageShutdown(); SwingShutdown(); return false; }
+  if(!BOSConfigureRuntime(0.0)) { BOSShutdown(); SwingStorageShutdown(); SwingShutdown(); return false; }
   if(!CHOCHInit()) { BOSShutdown(); SwingStorageShutdown(); SwingShutdown(); return false; }
   if(!TrendInit()) { CHOCHShutdown(); BOSShutdown(); SwingStorageShutdown(); SwingShutdown(); return false; }
   structureManagerInitialized = true;
