@@ -140,4 +140,72 @@ bool ConfirmBreakOfStructure(const double closePrice,
   return true;
 }
 
+bool ValidateTypedSwing(const SwingPoint &point, const SwingType expectedType) {
+  return point.type == expectedType && point.price > 0.0 && point.time > 0 &&
+         MathIsValidNumber(point.price);
+}
+
+bool DetectChangeOfCharacter(const double closePrice,
+                             const datetime closeTime,
+                             const SwingPoint &latestHigh,
+                             const SwingPoint &previousHigh,
+                             const SwingPoint &olderHigh,
+                             const SwingPoint &latestLow,
+                             const SwingPoint &previousLow,
+                             const SwingPoint &olderLow,
+                             const double minimumBreak,
+                             CHOCHResult &result) {
+  result.direction = CHOCH_NONE;
+  result.level = 0.0;
+  result.closePrice = 0.0;
+  result.closeTime = 0;
+  result.transitionSwingTime = 0;
+  result.previousBias = STRUCTURE_BIAS_UNKNOWN;
+  if(!MathIsValidNumber(closePrice) || closePrice <= 0.0 || closeTime <= 0 ||
+     !MathIsValidNumber(minimumBreak) || minimumBreak < 0.0)
+    return false;
+  if(!ValidateTypedSwing(latestHigh, SWING_HIGH) ||
+     !ValidateTypedSwing(previousHigh, SWING_HIGH) ||
+     !ValidateTypedSwing(olderHigh, SWING_HIGH) ||
+     !ValidateTypedSwing(latestLow, SWING_LOW) ||
+     !ValidateTypedSwing(previousLow, SWING_LOW) ||
+     !ValidateTypedSwing(olderLow, SWING_LOW))
+    return false;
+  if(!(latestHigh.time > previousHigh.time &&
+       previousHigh.time > olderHigh.time &&
+       latestLow.time > previousLow.time &&
+       previousLow.time > olderLow.time))
+    return false;
+
+  bool previousBullish = previousHigh.price > olderHigh.price &&
+                         previousLow.price > olderLow.price;
+  bool lowerHighTransition = latestHigh.price < previousHigh.price &&
+                             latestHigh.time > latestLow.time;
+  if(previousBullish && lowerHighTransition && closeTime > latestHigh.time &&
+     closePrice < latestLow.price - minimumBreak) {
+    result.direction = CHOCH_BEARISH;
+    result.level = latestLow.price;
+    result.closePrice = closePrice;
+    result.closeTime = closeTime;
+    result.transitionSwingTime = latestHigh.time;
+    result.previousBias = STRUCTURE_BIAS_BULLISH;
+    return true;
+  }
+
+  bool previousBearish = previousHigh.price < olderHigh.price &&
+                         previousLow.price < olderLow.price;
+  bool higherLowTransition = latestLow.price > previousLow.price &&
+                             latestLow.time > latestHigh.time;
+  if(previousBearish && higherLowTransition && closeTime > latestLow.time &&
+     closePrice > latestHigh.price + minimumBreak) {
+    result.direction = CHOCH_BULLISH;
+    result.level = latestHigh.price;
+    result.closePrice = closePrice;
+    result.closeTime = closeTime;
+    result.transitionSwingTime = latestLow.time;
+    result.previousBias = STRUCTURE_BIAS_BEARISH;
+  }
+  return true;
+}
+
 #endif // MQL5_STRUCTURE_MATH_MQH

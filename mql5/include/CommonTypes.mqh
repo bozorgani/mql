@@ -8,6 +8,7 @@ enum SwingType { SWING_NONE=0, SWING_HIGH, SWING_LOW };
 enum SwingRelation { SWING_RELATION_NONE=0, SWING_HH, SWING_HL, SWING_LH, SWING_LL };
 enum StructureBreakDirection { BOS_NONE=0, BOS_BULLISH, BOS_BEARISH };
 enum MarketStructureBias { STRUCTURE_BIAS_UNKNOWN=0, STRUCTURE_BIAS_BULLISH, STRUCTURE_BIAS_BEARISH };
+enum StructureShiftDirection { CHOCH_NONE=0, CHOCH_BULLISH, CHOCH_BEARISH };
 enum LogLevel { LOG_DEBUG=0, LOG_INFO, LOG_WARNING, LOG_ERROR, LOG_CRITICAL };
 enum ModuleStatus { MODULE_IDLE=0, MODULE_ACTIVE, MODULE_ERROR };
 enum ValidationResult { VAL_UNKNOWN=0, VAL_OK, VAL_FAIL, VAL_PENDING };
@@ -29,6 +30,15 @@ struct BOSResult {
   double closePrice;
   datetime closeTime;
   datetime sourceSwingTime;
+};
+
+struct CHOCHResult {
+  StructureShiftDirection direction;
+  double level;
+  double closePrice;
+  datetime closeTime;
+  datetime transitionSwingTime;
+  MarketStructureBias previousBias;
 };
 
 #endif // MQL5_COMMON_TYPES_MQH

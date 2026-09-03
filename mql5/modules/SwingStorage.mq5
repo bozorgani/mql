@@ -57,20 +57,23 @@ bool GetLatestSwingByType(SwingType type, SwingPoint &point){
   }
   return false;
 }
-bool GetPreviousSwingByType(SwingType type, SwingPoint &point){
-  if(type == SWING_NONE)
+bool GetSwingByTypeOffset(SwingType type, int offset, SwingPoint &point){
+  if(type == SWING_NONE || offset < 0)
     return false;
   int found = 0;
   for(int index = ArraySize(swingStoragePoints) - 1; index >= 0; index--){
     if(swingStoragePoints[index].type != type)
       continue;
-    found++;
-    if(found == 2){
+    if(found == offset){
       point = swingStoragePoints[index];
       return true;
     }
+    found++;
   }
   return false;
+}
+bool GetPreviousSwingByType(SwingType type, SwingPoint &point){
+  return GetSwingByTypeOffset(type, 1, point);
 }
 bool SwingStorageReady(){ return swingStorageInitialized && swingStorageReadyState; }
 
