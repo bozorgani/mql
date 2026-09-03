@@ -3,17 +3,17 @@
 // TODO(SPR4-013): Replace local PatternType with shared CommonTypes definition
 
 
-bool initialized = false;
-bool configured = false;
-bool ready = false;
-PatternType detectedPattern = PATTERN_NONE;
+bool outsideBarInitialized = false;
+bool outsideBarConfigured = false;
+bool outsideBarReadyState = false;
+PatternType outsideBarDetectedPattern = PATTERN_NONE;
 
-bool OutsideBarInit(){ initialized = true; return true; }
-void OutsideBarShutdown(){ initialized = false; configured = false; ready = false; detectedPattern = PATTERN_NONE; }
-bool OutsideBarStatus(){ return initialized; }
-bool OutsideBarConfigure(){ configured = true; return true; }
+bool OutsideBarInit(){ outsideBarInitialized = true; return true; }
+void OutsideBarShutdown(){ outsideBarInitialized = false; outsideBarConfigured = false; outsideBarReadyState = false; outsideBarDetectedPattern = PATTERN_NONE; }
+bool OutsideBarStatus(){ return outsideBarInitialized; }
+bool OutsideBarConfigure(){ outsideBarConfigured = true; return true; }
 bool OutsideBarUpdate(){
   /* TODO(SPR4-006): Implement Outside Bar detection using closed candles from CandleClassifier */
   return true;
 }
-bool OutsideBarReady(){ return initialized && configured && ready; }
+bool OutsideBarReady(){ return outsideBarInitialized && outsideBarConfigured && outsideBarReadyState; }

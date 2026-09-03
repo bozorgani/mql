@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MQL5_UTILS_MQH
+#define MQL5_UTILS_MQH
 // SPR1-004 Utility Library — generic helpers only; pure; no mutable state
 /// Numeric: clamp value between min/max
 double Clamp(double v,double mn,double mx){return v<mn?mn:(v>mx?mx:v);}
@@ -20,3 +21,4 @@ bool IsArrayEmpty(void &arr){return ArraySize(arr)<=0;}
 string FormatPrice(double p){return DoubleToString(p,5);}
 string FormatPercentage(double p){return DoubleToString(p,2)+"%";}
 string FormatTimestamp(datetime t){return TimeToString(t);}
+#endif // MQL5_UTILS_MQH

@@ -1,5 +1,5 @@
 // SPR4-009 PriceActionManager — infrastructure orchestration (patched)
-bool initialized = false;
+bool priceActionManagerInitialized = false;
 bool PriceActionManagerInit(){
   if(!CandleClassifierInit()) return false;
   if(!EngulfingInit()) return false;
@@ -9,7 +9,7 @@ bool PriceActionManagerInit(){
   if(!FibonacciInit()) return false;
   if(!RetracementInit()) return false;
   if(!ConfluenceInit()) return false;
-  initialized = true;
+  priceActionManagerInitialized = true;
   return true;
 }
 void PriceActionManagerShutdown(){
@@ -21,9 +21,9 @@ void PriceActionManagerShutdown(){
   PinBarShutdown();
   EngulfingShutdown();
   CandleClassifierShutdown();
-  initialized = false;
+  priceActionManagerInitialized = false;
 }
-bool PriceActionManagerStatus(){ return initialized; }
+bool PriceActionManagerStatus(){ return priceActionManagerInitialized; }
 bool PriceActionManagerUpdate(){
   CandleClassifierUpdate();
   EngulfingUpdate();

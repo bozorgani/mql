@@ -1,12 +1,12 @@
 // SPR3-007 Structure Manager Foundation — infrastructure orchestration only
-bool initialized = false;
+bool structureManagerInitialized = false;
 bool StructureManagerInit(){
   if(!SwingInit()) return false;
   if(!SwingStorageInit()) { SwingShutdown(); SwingStorageShutdown(); return false; }
   if(!BOSInit()) { SwingStorageShutdown(); SwingShutdown(); return false; }
   if(!CHOCHInit()) { BOSShutdown(); SwingStorageShutdown(); SwingShutdown(); return false; }
   if(!TrendInit()) { CHOCHShutdown(); BOSShutdown(); SwingStorageShutdown(); SwingShutdown(); return false; }
-  initialized = true;
+  structureManagerInitialized = true;
   return true;
 }
 void StructureManagerShutdown(){
@@ -15,9 +15,9 @@ void StructureManagerShutdown(){
   BOSShutdown();
   SwingStorageShutdown();
   SwingShutdown();
-  initialized = false;
+  structureManagerInitialized = false;
 }
-bool StructureManagerStatus(){ return initialized; }
+bool StructureManagerStatus(){ return structureManagerInitialized; }
 bool StructureManagerUpdate(){
   SwingUpdate();
   if(SwingReady()){

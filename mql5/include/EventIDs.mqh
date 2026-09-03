@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MQL5_EVENT_IDS_MQH
+#define MQL5_EVENT_IDS_MQH
 // SPR1-010 Event ID Registry — infrastructure only; compile-time constants
 const string CFG_INIT = "CFG-001";
 const string CFG_LOAD = "CFG-002";
@@ -17,3 +18,4 @@ const string WARNING_GENERIC = "WRN-001";
 const string INFO_GENERIC = "INF-001";
 // Reserved prefixes for future modules
 // EMA_ ATR_ BOS_ CHOCH_ FIB_ RISK_ AI_ TRADE_
+#endif // MQL5_EVENT_IDS_MQH

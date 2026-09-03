@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MQL5_CONFIG_VALIDATOR_MQ5
+#define MQL5_CONFIG_VALIDATOR_MQ5
 #include <mql5/include/CommonTypes.mqh>
 
 ValidationResult ValidateRequired(string v){ return v!="" ? VAL_OK : VAL_FAIL; }
@@ -18,7 +19,15 @@ ValidationResult ValidateConsistency(string s){ return VAL_PENDING; }
 // Strategy parameters remain deferred to a future strategy configuration layer.
 ValidationResult ValidateConfiguration(){
   if(ValidatePositive(indicatorConfig.emaPeriod) != VAL_OK) return VAL_FAIL;
+  if(ValidatePositive(indicatorConfig.emaSlowPeriod) != VAL_OK) return VAL_FAIL;
+  if(indicatorConfig.emaSlowPeriod <= indicatorConfig.emaPeriod) return VAL_FAIL;
   if(ValidatePositive(indicatorConfig.atrPeriod) != VAL_OK) return VAL_FAIL;
   if(ValidateEnumValue(indicatorConfig.emaAppliedPrice, 0, 6) != VAL_OK) return VAL_FAIL;
+  if(PeriodSeconds(indicatorConfig.trendTimeframe) <= 0) return VAL_FAIL;
+  if(PeriodSeconds(indicatorConfig.entryTimeframe) <= 0) return VAL_FAIL;
+  if(PeriodSeconds(indicatorConfig.atrTimeframe) <= 0) return VAL_FAIL;
+  if(ValidatePositive(indicatorConfig.historyMultiplier) != VAL_OK) return VAL_FAIL;
   return VAL_OK;
 }
+
+#endif // MQL5_CONFIG_VALIDATOR_MQ5

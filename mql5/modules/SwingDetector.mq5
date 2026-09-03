@@ -1,14 +1,14 @@
 // SPR3-001 Swing Detector Foundation — skeleton only; algorithm deferred to SPR3-002
-bool initialized = false;
-bool configured = false;
-bool ready = false;
-int lookbackBars = 5;
-double lastSwingPrice = 0.0;
-datetime lastSwingTime = 0;
-bool SwingInit(){ initialized = true; return true; }
-void SwingShutdown(){ initialized = false; configured = false; ready = false; lastSwingPrice = 0.0; lastSwingTime = 0; }
-bool SwingStatus(){ return initialized; }
-bool SwingConfigure(int lookback){ if(lookback > 0){ lookbackBars = lookback; configured = true; } return configured; }
+bool swingInitialized = false;
+bool swingConfigured = false;
+bool swingReadyState = false;
+int swingLookbackBars = 5;
+double swingLastPrice = 0.0;
+datetime swingLastTime = 0;
+bool SwingInit(){ swingInitialized = true; return true; }
+void SwingShutdown(){ swingInitialized = false; swingConfigured = false; swingReadyState = false; swingLastPrice = 0.0; swingLastTime = 0; }
+bool SwingStatus(){ return swingInitialized; }
+bool SwingConfigure(int lookback){ if(lookback > 0){ swingLookbackBars = lookback; swingConfigured = true; } return swingConfigured; }
 bool SwingUpdate(){ 
   if(Bars(_Symbol, PERIOD_CURRENT) < 4) return true;
   // Local swing detection using CLOSED candles only (bars 3,2,1); bar 0 excluded
@@ -21,15 +21,15 @@ bool SwingUpdate(){
   bool highSwing = (highCand > highPrev && highCand > highBefore);
   bool lowSwing  = (lowCand < lowPrev && lowCand < lowBefore);
   if(highSwing || lowSwing){
-    lastSwingPrice = (highSwing ? highCand : lowCand);
-    lastSwingTime = iTime(_Symbol, PERIOD_CURRENT, 1);
-    ready = true;
+    swingLastPrice = (highSwing ? highCand : lowCand);
+    swingLastTime = iTime(_Symbol, PERIOD_CURRENT, 1);
+    swingReadyState = true;
   }
   // TODO(SPR3-004): Replace temporary 3-bar swing with configurable lookback algorithm
   return true;
 }
-bool SwingReady(){ return initialized && configured && ready; }
-double GetLastSwingPrice(){ return lastSwingPrice; }
-datetime GetLastSwingTime(){ return lastSwingTime; }
+bool SwingReady(){ return swingInitialized && swingConfigured && swingReadyState; }
+double GetLastSwingPrice(){ return swingLastPrice; }
+datetime GetLastSwingTime(){ return swingLastTime; }
 
 // TODO(SPR7): Logger integration hook — future CreateLogEvent calls here

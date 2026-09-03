@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MQL5_STRUCTURE_EVENT_IDS_MQH
+#define MQL5_STRUCTURE_EVENT_IDS_MQH
 // SPR3-010 Structure Event Registry — infrastructure identifiers only
 const string EVT_SWING_FOUND = "SWING_FOUND";
 const string EVT_SWING_UPDATED = "SWING_UPDATED";
@@ -18,3 +19,4 @@ const string EVT_TREND_RESET = "TREND_RESET";
 const string EVT_STRUCTURE_INIT = "STRUCTURE_INIT";
 const string EVT_STRUCTURE_UPDATE = "STRUCTURE_UPDATE";
 const string EVT_STRUCTURE_SHUTDOWN = "STRUCTURE_SHUTDOWN";
+#endif // MQL5_STRUCTURE_EVENT_IDS_MQH

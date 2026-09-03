@@ -1,10 +1,10 @@
 // SPR1-014 Final Freeze — InitManager synchronized with architecture
-bool initialized = false;
-void InitManagerStart(){ initialized = true; }
-void InitManagerShutdown(){ initialized = false; }
-bool InitManagerStatus(){ return initialized; }
+bool initManagerInitialized = false;
+void InitManagerStart(){ initManagerInitialized = true; }
+void InitManagerShutdown(){ initManagerInitialized = false; }
+bool InitManagerStatus(){ return initManagerInitialized; }
 bool InitializeInfrastructure(){
-  if(!ConfigInit()) return false;
+  if(ConfigInit() != INIT_SUCCEEDED) return false;
   LoggerInit();
   if(!LoggerFileInit()) return false;
   if(!TimeServiceInit()) return false;
@@ -12,4 +12,4 @@ bool InitializeInfrastructure(){
   if(!SymbolInfoInit()) return false;
   return true;
 }
-bool ValidateInitialization(){ return initialized; }
+bool ValidateInitialization(){ return initManagerInitialized; }

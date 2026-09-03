@@ -10,11 +10,17 @@ bool IndicatorManagerInit(){
   if(!EMAInit()) return false;
   if(!ATRInit()){ EMAShutdown(); return false; }
   // Apply authorized values from the ConfigSystem-owned record.
-  if(!EMAConfigure(indicatorConfig.emaPeriod, indicatorConfig.emaAppliedPrice)){
+  if(!EMAConfigureRuntime(indicatorConfig.emaPeriod,
+                          indicatorConfig.emaSlowPeriod,
+                          indicatorConfig.emaAppliedPrice,
+                          indicatorConfig.trendTimeframe,
+                          indicatorConfig.historyMultiplier)){
     IndicatorManagerShutdown(); // reverse-order child rollback (ATR, then EMA)
     return false;
   }
-  if(!ATRConfigure(indicatorConfig.atrPeriod)){
+  if(!ATRConfigureRuntime(indicatorConfig.atrPeriod,
+                          indicatorConfig.atrTimeframe,
+                          indicatorConfig.historyMultiplier)){
     IndicatorManagerShutdown(); // reverse-order child rollback (ATR, then EMA)
     return false;
   }

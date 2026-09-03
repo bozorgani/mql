@@ -146,7 +146,7 @@ bool InitializeInfrastructureLayer() {
   
   LogInfoEvent(EVENT_INFRASTRUCTURE_INIT, "Initializing infrastructure layer");
   
-  if(!ConfigInit()) { 
+  if(ConfigInit() != INIT_SUCCEEDED) {
     LogErrorEvent("INIT_FAILED", "ConfigInit failed"); 
     return false; 
   }
@@ -417,22 +417,6 @@ void OnTick() {
   if(eaState == EA_READY || eaState == EA_RUNNING) {
     EAUpdate();
   }
-}
-
-int OnCalculate(const int rates_total,
-                const int prev_calculated,
-                const datetime &time[],
-                const double &open[],
-                const double &high[],
-                const double &low[],
-                const double &close[],
-                const long &tick_volume[],
-                const long &volume[],
-                const int &spread[]) {
-  if(eaState == EA_READY || eaState == EA_RUNNING) {
-    EAUpdate();
-  }
-  return rates_total;
 }
 
 // ============================================================================

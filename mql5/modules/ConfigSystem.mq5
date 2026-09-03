@@ -12,8 +12,13 @@
 // NOT configuration sources (per SPR6-006C..006G).
 // ---------------------------------------------------------------------------
 const int CONFIG_EMA_PERIOD = 50;
+const int CONFIG_EMA_SLOW_PERIOD = 200;
 const int CONFIG_EMA_APPLIED_PRICE = 0; // PRICE_CLOSE (MQL ENUM_APPLIED_PRICE)
 const int CONFIG_ATR_PERIOD = 14;
+const ENUM_TIMEFRAMES CONFIG_TREND_TIMEFRAME = PERIOD_H4;
+const ENUM_TIMEFRAMES CONFIG_ENTRY_TIMEFRAME = PERIOD_H1;
+const ENUM_TIMEFRAMES CONFIG_ATR_TIMEFRAME = PERIOD_H1;
+const int CONFIG_HISTORY_MULTIPLIER = 10;
 
 // ---------------------------------------------------------------------------
 // Typed indicator configuration record — approved transport shape (Option A).
@@ -22,16 +27,26 @@ const int CONFIG_ATR_PERIOD = 14;
 // ---------------------------------------------------------------------------
 struct IndicatorConfig {
   int emaPeriod;
+  int emaSlowPeriod;
   int emaAppliedPrice; // MQL ENUM_APPLIED_PRICE domain (0..6)
   int atrPeriod;
+  ENUM_TIMEFRAMES trendTimeframe;
+  ENUM_TIMEFRAMES entryTimeframe;
+  ENUM_TIMEFRAMES atrTimeframe;
+  int historyMultiplier;
 };
 
 IndicatorConfig indicatorConfig;
 
 int ConfigInit() {
   indicatorConfig.emaPeriod = CONFIG_EMA_PERIOD;
+  indicatorConfig.emaSlowPeriod = CONFIG_EMA_SLOW_PERIOD;
   indicatorConfig.emaAppliedPrice = CONFIG_EMA_APPLIED_PRICE;
   indicatorConfig.atrPeriod = CONFIG_ATR_PERIOD;
+  indicatorConfig.trendTimeframe = CONFIG_TREND_TIMEFRAME;
+  indicatorConfig.entryTimeframe = CONFIG_ENTRY_TIMEFRAME;
+  indicatorConfig.atrTimeframe = CONFIG_ATR_TIMEFRAME;
+  indicatorConfig.historyMultiplier = CONFIG_HISTORY_MULTIPLIER;
   return INIT_SUCCEEDED;
 }
 

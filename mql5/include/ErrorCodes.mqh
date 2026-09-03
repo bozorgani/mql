@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MQL5_ERROR_CODES_MQH
+#define MQL5_ERROR_CODES_MQH
 // SPR1-011 Error Code Registry — infrastructure only; 1000-1999 reserved
 const int ERR_NONE = 1000;
 const int ERR_UNKNOWN = 1001;
@@ -16,3 +17,4 @@ const int ERR_INTERNAL = 1012;
 const int ERR_NOT_IMPLEMENTED = 1013;
 const int ERR_PENDING = 1014;
 // Reserved prefixes (no values assigned): EMA_ ATR_ BOS_ CHOCH_ FIB_ RISK_ AI_ TRADE_ MARKET_ EXECUTION_
+#endif // MQL5_ERROR_CODES_MQH
