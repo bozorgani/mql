@@ -1,4 +1,4 @@
-#include <mql5/include/CommonTypes.mqh>
+#include <mql5/include/PriceActionMath.mqh>
 // TODO(SPR4-013): Replace local PatternType with shared CommonTypes definition
 
 // SPR4-003 EngulfingDetector Foundation — skeleton only; no pattern logic
@@ -11,7 +11,11 @@ void EngulfingShutdown(){ engulfingInitialized = false; engulfingConfigured = fa
 bool EngulfingStatus(){ return engulfingInitialized; }
 bool EngulfingConfigure(){ engulfingConfigured = true; return true; }
 bool EngulfingUpdate(){
-  /* TODO(SPR4-004): Implement Bullish/Bearish Engulfing detection using closed candles from CandleClassifier */
+  if(!engulfingInitialized || !engulfingConfigured) return false;
+  MqlRates rates[]; if(!LoadClosedRates(_Symbol, indicatorConfig.entryTimeframe, 2, rates)) return false;
+  engulfingDetectedPattern = DetectEngulfingPattern(rates[0], rates[1]);
+  engulfingReadyState = true;
   return true;
 }
 bool EngulfingReady(){ return engulfingInitialized && engulfingConfigured && engulfingReadyState; }
+PatternType GetEngulfingPattern(){ return engulfingDetectedPattern; }

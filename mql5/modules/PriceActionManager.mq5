@@ -2,13 +2,14 @@
 bool priceActionManagerInitialized = false;
 bool PriceActionManagerInit(){
   if(!CandleClassifierInit()) return false;
-  if(!EngulfingInit()) return false;
-  if(!PinBarInit()) return false;
-  if(!InsideBarInit()) return false;
-  if(!OutsideBarInit()) return false;
-  if(!FibonacciInit()) return false;
-  if(!RetracementInit()) return false;
-  if(!ConfluenceInit()) return false;
+  if(!CandleClassifierConfigureRuntime(priceActionConfig.dojiBodyRatio)) { CandleClassifierShutdown(); return false; }
+  if(!EngulfingInit() || !EngulfingConfigure()) { EngulfingShutdown(); CandleClassifierShutdown(); return false; }
+  if(!PinBarInit() || !PinBarConfigureRuntime(priceActionConfig.pinMaximumBodyRatio, priceActionConfig.pinMinimumWickToBody, priceActionConfig.extremeCloseRatio)) { PinBarShutdown(); EngulfingShutdown(); CandleClassifierShutdown(); return false; }
+  if(!InsideBarInit() || !InsideBarConfigure()) { InsideBarShutdown(); PinBarShutdown(); EngulfingShutdown(); CandleClassifierShutdown(); return false; }
+  if(!OutsideBarInit() || !OutsideBarConfigureRuntime(priceActionConfig.extremeCloseRatio)) { OutsideBarShutdown(); InsideBarShutdown(); PinBarShutdown(); EngulfingShutdown(); CandleClassifierShutdown(); return false; }
+  if(!FibonacciInit() || !FibonacciConfigure()) { FibonacciShutdown(); OutsideBarShutdown(); InsideBarShutdown(); PinBarShutdown(); EngulfingShutdown(); CandleClassifierShutdown(); return false; }
+  if(!RetracementInit() || !RetracementConfigure()) { RetracementShutdown(); FibonacciShutdown(); OutsideBarShutdown(); InsideBarShutdown(); PinBarShutdown(); EngulfingShutdown(); CandleClassifierShutdown(); return false; }
+  if(!ConfluenceInit() || !ConfluenceConfigure()) { ConfluenceShutdown(); RetracementShutdown(); FibonacciShutdown(); OutsideBarShutdown(); InsideBarShutdown(); PinBarShutdown(); EngulfingShutdown(); CandleClassifierShutdown(); return false; }
   priceActionManagerInitialized = true;
   return true;
 }
@@ -25,13 +26,14 @@ void PriceActionManagerShutdown(){
 }
 bool PriceActionManagerStatus(){ return priceActionManagerInitialized; }
 bool PriceActionManagerUpdate(){
-  CandleClassifierUpdate();
-  EngulfingUpdate();
-  PinBarUpdate();
-  InsideBarUpdate();
-  OutsideBarUpdate();
-  FibonacciUpdate();
-  RetracementUpdate();
-  ConfluenceUpdate();
+  if(!priceActionManagerInitialized) return false;
+  if(!CandleClassifierUpdate()) return false;
+  if(!EngulfingUpdate()) return false;
+  if(!PinBarUpdate()) return false;
+  if(!InsideBarUpdate()) return false;
+  if(!OutsideBarUpdate()) return false;
+  if(!FibonacciUpdate()) return false;
+  if(!RetracementUpdate()) return false;
+  if(!ConfluenceUpdate()) return false;
   return true;
 }

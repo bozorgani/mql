@@ -21,6 +21,10 @@ const ENUM_TIMEFRAMES CONFIG_ATR_TIMEFRAME = PERIOD_H1;
 const int CONFIG_HISTORY_MULTIPLIER = 10;
 const double CONFIG_TREND_NORMAL_DISTANCE_RATIO = 0.005;
 const double CONFIG_TREND_STRONG_DISTANCE_RATIO = 0.015;
+const double CONFIG_DOJI_BODY_RATIO = 0.10;
+const double CONFIG_PIN_MAX_BODY_RATIO = 0.30;
+const double CONFIG_PIN_MIN_WICK_TO_BODY = 2.0;
+const double CONFIG_PATTERN_EXTREME_CLOSE_RATIO = 0.25;
 
 // ---------------------------------------------------------------------------
 // Typed indicator configuration record — approved transport shape (Option A).
@@ -42,6 +46,14 @@ struct IndicatorConfig {
 
 IndicatorConfig indicatorConfig;
 
+struct PriceActionConfig {
+  double dojiBodyRatio;
+  double pinMaximumBodyRatio;
+  double pinMinimumWickToBody;
+  double extremeCloseRatio;
+};
+PriceActionConfig priceActionConfig;
+
 int ConfigInit() {
   indicatorConfig.emaPeriod = CONFIG_EMA_PERIOD;
   indicatorConfig.emaSlowPeriod = CONFIG_EMA_SLOW_PERIOD;
@@ -53,6 +65,10 @@ int ConfigInit() {
   indicatorConfig.historyMultiplier = CONFIG_HISTORY_MULTIPLIER;
   indicatorConfig.trendNormalDistanceRatio = CONFIG_TREND_NORMAL_DISTANCE_RATIO;
   indicatorConfig.trendStrongDistanceRatio = CONFIG_TREND_STRONG_DISTANCE_RATIO;
+  priceActionConfig.dojiBodyRatio = CONFIG_DOJI_BODY_RATIO;
+  priceActionConfig.pinMaximumBodyRatio = CONFIG_PIN_MAX_BODY_RATIO;
+  priceActionConfig.pinMinimumWickToBody = CONFIG_PIN_MIN_WICK_TO_BODY;
+  priceActionConfig.extremeCloseRatio = CONFIG_PATTERN_EXTREME_CLOSE_RATIO;
   return INIT_SUCCEEDED;
 }
 

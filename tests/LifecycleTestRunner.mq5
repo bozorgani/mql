@@ -51,6 +51,14 @@ void TestConfigurationContract() {
                    "Normal trend-distance threshold is 0.5 percent");
   TestAssertDouble(0.015, indicatorConfig.trendStrongDistanceRatio, 0.0,
                    "Strong trend-distance threshold is 1.5 percent");
+  TestAssertDouble(0.10, priceActionConfig.dojiBodyRatio, 0.0,
+                   "Doji body threshold is configured");
+  TestAssertDouble(0.30, priceActionConfig.pinMaximumBodyRatio, 0.0,
+                   "Pin-bar body threshold is configured");
+  TestAssertDouble(2.0, priceActionConfig.pinMinimumWickToBody, 0.0,
+                   "Pin-bar wick multiple is configured");
+  TestAssertDouble(0.25, priceActionConfig.extremeCloseRatio, 0.0,
+                   "Extreme-close threshold is configured");
 
   indicatorConfig.emaPeriod = 0;
   TestAssertFalse(ConfigStatus(), "Zero EMA period is rejected");
@@ -78,6 +86,10 @@ void TestConfigurationContract() {
 
   indicatorConfig.trendStrongDistanceRatio = indicatorConfig.trendNormalDistanceRatio;
   TestAssertFalse(ConfigStatus(), "Strong trend threshold must exceed normal threshold");
+  ConfigInit();
+
+  priceActionConfig.extremeCloseRatio = 0.5;
+  TestAssertFalse(ConfigStatus(), "Extreme-close ratio must remain below half-range");
   ConfigInit();
 }
 
@@ -152,6 +164,11 @@ void TestPriceActionLifecycle() {
   TestAssertTrue(FibonacciStatus(), "Fibonacci engine initializes");
   TestAssertTrue(RetracementStatus(), "Retracement detector initializes");
   TestAssertTrue(ConfluenceStatus(), "Confluence manager initializes");
+  TestAssertTrue(candleClassifierConfigured, "Candle classifier receives configuration");
+  TestAssertTrue(engulfingConfigured, "Engulfing detector receives configuration");
+  TestAssertTrue(pinBarConfigured, "Pin-bar detector receives configuration");
+  TestAssertTrue(insideBarConfigured, "Inside-bar detector receives configuration");
+  TestAssertTrue(outsideBarConfigured, "Outside-bar detector receives configuration");
   PriceActionManagerShutdown();
   TestAssertFalse(PriceActionManagerStatus(), "Price-action manager shuts down");
   TestAssertFalse(CandleClassifierStatus(), "Candle classifier shuts down");

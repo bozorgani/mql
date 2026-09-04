@@ -31,6 +31,14 @@ ValidationResult ValidateConfiguration(){
      indicatorConfig.trendNormalDistanceRatio < 0.0) return VAL_FAIL;
   if(!MathIsValidNumber(indicatorConfig.trendStrongDistanceRatio) ||
      indicatorConfig.trendStrongDistanceRatio <= indicatorConfig.trendNormalDistanceRatio) return VAL_FAIL;
+  if(!MathIsValidNumber(priceActionConfig.dojiBodyRatio) ||
+     priceActionConfig.dojiBodyRatio < 0.0 || priceActionConfig.dojiBodyRatio >= 1.0) return VAL_FAIL;
+  if(!MathIsValidNumber(priceActionConfig.pinMaximumBodyRatio) ||
+     priceActionConfig.pinMaximumBodyRatio <= 0.0 || priceActionConfig.pinMaximumBodyRatio >= 1.0) return VAL_FAIL;
+  if(!MathIsValidNumber(priceActionConfig.pinMinimumWickToBody) ||
+     priceActionConfig.pinMinimumWickToBody <= 0.0) return VAL_FAIL;
+  if(!MathIsValidNumber(priceActionConfig.extremeCloseRatio) ||
+     priceActionConfig.extremeCloseRatio <= 0.0 || priceActionConfig.extremeCloseRatio >= 0.5) return VAL_FAIL;
   return VAL_OK;
 }
 
