@@ -7,8 +7,8 @@ bool PriceActionManagerInit(){
   if(!PinBarInit() || !PinBarConfigureRuntime(priceActionConfig.pinMaximumBodyRatio, priceActionConfig.pinMinimumWickToBody, priceActionConfig.extremeCloseRatio)) { PinBarShutdown(); EngulfingShutdown(); CandleClassifierShutdown(); return false; }
   if(!InsideBarInit() || !InsideBarConfigure()) { InsideBarShutdown(); PinBarShutdown(); EngulfingShutdown(); CandleClassifierShutdown(); return false; }
   if(!OutsideBarInit() || !OutsideBarConfigureRuntime(priceActionConfig.extremeCloseRatio)) { OutsideBarShutdown(); InsideBarShutdown(); PinBarShutdown(); EngulfingShutdown(); CandleClassifierShutdown(); return false; }
-  if(!FibonacciInit() || !FibonacciConfigure()) { FibonacciShutdown(); OutsideBarShutdown(); InsideBarShutdown(); PinBarShutdown(); EngulfingShutdown(); CandleClassifierShutdown(); return false; }
-  if(!RetracementInit() || !RetracementConfigure()) { RetracementShutdown(); FibonacciShutdown(); OutsideBarShutdown(); InsideBarShutdown(); PinBarShutdown(); EngulfingShutdown(); CandleClassifierShutdown(); return false; }
+  if(!FibonacciInit() || !FibonacciConfigureRuntime(priceActionConfig.fibonacciMinimumImpulseRatio,priceActionConfig.fibonacciInvalidationRatio,priceActionConfig.fibonacciMaximumAgeBars)) { FibonacciShutdown(); OutsideBarShutdown(); InsideBarShutdown(); PinBarShutdown(); EngulfingShutdown(); CandleClassifierShutdown(); return false; }
+  if(!RetracementInit() || !RetracementConfigureRuntime(priceActionConfig.fibonacciZoneToleranceRatio)) { RetracementShutdown(); FibonacciShutdown(); OutsideBarShutdown(); InsideBarShutdown(); PinBarShutdown(); EngulfingShutdown(); CandleClassifierShutdown(); return false; }
   if(!ConfluenceInit() || !ConfluenceConfigure()) { ConfluenceShutdown(); RetracementShutdown(); FibonacciShutdown(); OutsideBarShutdown(); InsideBarShutdown(); PinBarShutdown(); EngulfingShutdown(); CandleClassifierShutdown(); return false; }
   priceActionManagerInitialized = true;
   return true;

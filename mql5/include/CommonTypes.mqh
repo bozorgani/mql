@@ -47,4 +47,22 @@ struct TrendResult {
   double emaDistanceRatio;
 };
 
+struct FibonacciResult {
+  bool valid;
+  TrendDirection direction;
+  SwingPoint origin;
+  SwingPoint end;
+  double level382;
+  double level500;
+  double level618;
+};
+
+struct RetracementResult {
+  bool valid;
+  FibonacciLevel nearestLevel;
+  double retracementRatio;
+  double nearestLevelPrice;
+  double distanceRatio;
+};
+
 #endif // MQL5_COMMON_TYPES_MQH

@@ -39,6 +39,15 @@ ValidationResult ValidateConfiguration(){
      priceActionConfig.pinMinimumWickToBody <= 0.0) return VAL_FAIL;
   if(!MathIsValidNumber(priceActionConfig.extremeCloseRatio) ||
      priceActionConfig.extremeCloseRatio <= 0.0 || priceActionConfig.extremeCloseRatio >= 0.5) return VAL_FAIL;
+  if(!MathIsValidNumber(priceActionConfig.fibonacciMinimumImpulseRatio) ||
+     priceActionConfig.fibonacciMinimumImpulseRatio <= 0.0) return VAL_FAIL;
+  if(!MathIsValidNumber(priceActionConfig.fibonacciZoneToleranceRatio) ||
+     priceActionConfig.fibonacciZoneToleranceRatio < 0.0 ||
+     priceActionConfig.fibonacciZoneToleranceRatio >= 0.5) return VAL_FAIL;
+  if(!MathIsValidNumber(priceActionConfig.fibonacciInvalidationRatio) ||
+     priceActionConfig.fibonacciInvalidationRatio < 0.0 ||
+     priceActionConfig.fibonacciInvalidationRatio >= 0.5) return VAL_FAIL;
+  if(ValidatePositive(priceActionConfig.fibonacciMaximumAgeBars) != VAL_OK) return VAL_FAIL;
   return VAL_OK;
 }
 

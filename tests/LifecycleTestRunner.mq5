@@ -59,6 +59,14 @@ void TestConfigurationContract() {
                    "Pin-bar wick multiple is configured");
   TestAssertDouble(0.25, priceActionConfig.extremeCloseRatio, 0.0,
                    "Extreme-close threshold is configured");
+  TestAssertDouble(0.03, priceActionConfig.fibonacciMinimumImpulseRatio, 0.0,
+                   "Fibonacci minimum impulse is configured");
+  TestAssertDouble(0.005, priceActionConfig.fibonacciInvalidationRatio, 0.0,
+                   "Fibonacci invalidation threshold is configured");
+  TestAssertDouble(0.0015, priceActionConfig.fibonacciZoneToleranceRatio, 0.0,
+                   "Fibonacci zone tolerance is configured");
+  TestAssertInt(40, priceActionConfig.fibonacciMaximumAgeBars,
+                "Fibonacci maximum age is configured");
 
   indicatorConfig.emaPeriod = 0;
   TestAssertFalse(ConfigStatus(), "Zero EMA period is rejected");
@@ -90,6 +98,10 @@ void TestConfigurationContract() {
 
   priceActionConfig.extremeCloseRatio = 0.5;
   TestAssertFalse(ConfigStatus(), "Extreme-close ratio must remain below half-range");
+  ConfigInit();
+
+  priceActionConfig.fibonacciMaximumAgeBars = 0;
+  TestAssertFalse(ConfigStatus(), "Zero Fibonacci maximum age is rejected");
   ConfigInit();
 }
 
@@ -169,6 +181,8 @@ void TestPriceActionLifecycle() {
   TestAssertTrue(pinBarConfigured, "Pin-bar detector receives configuration");
   TestAssertTrue(insideBarConfigured, "Inside-bar detector receives configuration");
   TestAssertTrue(outsideBarConfigured, "Outside-bar detector receives configuration");
+  TestAssertTrue(fibonacciConfigured, "Fibonacci engine receives configuration");
+  TestAssertTrue(retracementConfigured, "Retracement detector receives configuration");
   PriceActionManagerShutdown();
   TestAssertFalse(PriceActionManagerStatus(), "Price-action manager shuts down");
   TestAssertFalse(CandleClassifierStatus(), "Candle classifier shuts down");

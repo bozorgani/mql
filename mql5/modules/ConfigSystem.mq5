@@ -25,6 +25,10 @@ const double CONFIG_DOJI_BODY_RATIO = 0.10;
 const double CONFIG_PIN_MAX_BODY_RATIO = 0.30;
 const double CONFIG_PIN_MIN_WICK_TO_BODY = 2.0;
 const double CONFIG_PATTERN_EXTREME_CLOSE_RATIO = 0.25;
+const double CONFIG_FIB_MINIMUM_IMPULSE_RATIO = 0.03;
+const double CONFIG_FIB_ZONE_TOLERANCE_RATIO = 0.0015;
+const double CONFIG_FIB_INVALIDATION_RATIO = 0.005;
+const int CONFIG_FIB_MAX_AGE_BARS = 40;
 
 // ---------------------------------------------------------------------------
 // Typed indicator configuration record — approved transport shape (Option A).
@@ -51,6 +55,10 @@ struct PriceActionConfig {
   double pinMaximumBodyRatio;
   double pinMinimumWickToBody;
   double extremeCloseRatio;
+  double fibonacciMinimumImpulseRatio;
+  double fibonacciZoneToleranceRatio;
+  double fibonacciInvalidationRatio;
+  int fibonacciMaximumAgeBars;
 };
 PriceActionConfig priceActionConfig;
 
@@ -69,6 +77,10 @@ int ConfigInit() {
   priceActionConfig.pinMaximumBodyRatio = CONFIG_PIN_MAX_BODY_RATIO;
   priceActionConfig.pinMinimumWickToBody = CONFIG_PIN_MIN_WICK_TO_BODY;
   priceActionConfig.extremeCloseRatio = CONFIG_PATTERN_EXTREME_CLOSE_RATIO;
+  priceActionConfig.fibonacciMinimumImpulseRatio = CONFIG_FIB_MINIMUM_IMPULSE_RATIO;
+  priceActionConfig.fibonacciZoneToleranceRatio = CONFIG_FIB_ZONE_TOLERANCE_RATIO;
+  priceActionConfig.fibonacciInvalidationRatio = CONFIG_FIB_INVALIDATION_RATIO;
+  priceActionConfig.fibonacciMaximumAgeBars = CONFIG_FIB_MAX_AGE_BARS;
   return INIT_SUCCEEDED;
 }
 
